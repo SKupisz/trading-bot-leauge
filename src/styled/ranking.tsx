@@ -21,7 +21,7 @@ export const RankingRow = styled.div<RankingRowInterface>`
     border-radius: 10px;
     box-shadow: ${(props) => props.theme.boxShadowNormal};
     background: ${(props) => props.theme.rowBackgroundColor}41;
-    margin-bottom: 6px;
+    margin-bottom: 10px;
     position: relative;
     overflow-y: hidden;
     display: flex;
