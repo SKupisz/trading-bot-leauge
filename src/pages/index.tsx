@@ -1,5 +1,5 @@
 import { RankingWrapper } from "@/styled/ranking"
-import RankingRowComponent from "components/RankingRowComponent"
+import RankingRowComponent from "@/components/RankingRowComponent"
 
 type TeamType = {
   name: string;
