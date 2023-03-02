@@ -5,18 +5,39 @@ interface RankingRowInterface {
 }
 
 export const RankingWrapper = styled.section`
-    width: calc(60% - 20px);
+    width: calc(98% - 20px);
     padding: 10px;
     text-align: center;
     position: relative;
-    left: 20%;
+    top: 4vh;
+    left: 1%;
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    @media screen and (min-width: 560px){
+        width: calc(90% - 20px);
+        left: 5%;
+    }
+
+    @media screen and (min-width: 768px){
+        width: calc(80% - 20px);
+        left: 10%;
+    }
+
+    @media screen and (min-width: 1024px){
+        width: calc(70% - 20px);
+        left: 15%;
+    }
+
+    @media screen and (min-width: 1440px){
+        width: calc(60% - 20px);
+        left: 20%;
+    }
 `;
 
 export const RankingRow = styled.div<RankingRowInterface>`
-    width: calc(90% - 20px);
+    width: calc(100% - 20px);
     padding: 20px 10px;
     border-radius: 10px;
     box-shadow: ${(props) => props.theme.boxShadowNormal};
@@ -36,12 +57,29 @@ export const RankingRow = styled.div<RankingRowInterface>`
         }
     ` : null}
 
+    @media screen and (min-width: 1024px){
+        width: calc(90% - 20px);
+    }
+
 `;
 
 export const RankingRowElem = styled.span`
+    width: calc(25% - 8px);
     margin: 0px 4px;
-    font-size: 1.8em;
+    font-size: 1.15em;
     letter-spacing: 0.04em;
     color: ${(props) => props.theme.textColor};
     text-shadow: ${(props) => props.theme.textShadow};
+
+    @media screen and (min-width: 425px){
+        font-size: 1.35em;
+    }
+
+    @media screen and (min-width: 768px){
+        font-size: 1.6em;
+    }
+
+    @media screen and (min-width: 1024px){
+        font-size: 1.8em;
+    }
 `;

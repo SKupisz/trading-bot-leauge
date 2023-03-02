@@ -1,5 +1,5 @@
 import { RankingWrapper } from "@/styled/ranking"
-import RankingRowComponent from "../../components/RankingRowComponent"
+import RankingRowComponent from "components/RankingRowComponent"
 
 export default function Home() {
   return (
@@ -9,7 +9,7 @@ export default function Home() {
           isHeader 
           column1="Pozycja"
           column2="Nazwa"
-          column3="Stan konta"
+          column3="Stan"
           column4="Zmiana"
           />
         <RankingRowComponent 
