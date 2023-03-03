@@ -1,8 +1,10 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { RankingWrapper } from "@/styled/ranking"
 
-import RankingRowComponent from "@/components/RankingRowComponent"
-import RankingHeaderRowComponent from "@/components/RankingHeaderRowComponent";
+import RankingRowComponent from "@/components/rankingRows/RankingRowComponent"
+import RankingHeaderRowComponent from "@/components/rankingRows/RankingHeaderRowComponent";
+import TeamWidgetComponent from "@/components/teamWidget/teamWidgetComponent";
+
 
 import { SortingEnum } from "@/util/rankingEnums";
 import { RankingContext } from "@/store/rankingContext";
@@ -72,6 +74,7 @@ export default function Home() {
           teamsRows
         }
       </RankingWrapper>
+      <TeamWidgetComponent />
     </>
   )
 }

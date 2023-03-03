@@ -14,5 +14,6 @@ export const GlobalStyle = createGlobalStyle`
         padding: 0;
         margin: 0;
         background: #191825;
+        overflow-x: hidden;
     }
 `;

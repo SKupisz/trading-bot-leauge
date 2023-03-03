@@ -18,6 +18,7 @@ export const RankingWrapper = styled.section`
     display: flex;
     flex-direction: column;
     align-items: center;
+    z-index: 2;
 
     @media screen and (min-width: 560px){
         width: calc(90% - 20px);
