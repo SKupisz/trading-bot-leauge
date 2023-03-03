@@ -1,27 +1,40 @@
 import React, { Dispatch, SetStateAction } from "react";
 import { RankingRow, RankingRowElem } from "@/styled/ranking";
-import { SortingEnum } from "@/util/rankingEnums";
+import { SortingModesEnum, SortingOrdersEnum } from "@/util/rankingEnums";
 
 interface RankingHeaderRowComponentInterface {
-    changeSortingCallback: Dispatch<SetStateAction<SortingEnum>>
+    changeSortingModeCallback: Dispatch<SetStateAction<SortingModesEnum>>,
+    changeSortingOrderCallback: Dispatch<SetStateAction<SortingOrdersEnum>>,
+    currentSortingMode: SortingModesEnum,
+    currentSortingOrder: SortingOrdersEnum,
 }
 
 const RankingHeaderRowComponent:React.FC<RankingHeaderRowComponentInterface> 
 = ({
-    changeSortingCallback
+    changeSortingModeCallback,
+    changeSortingOrderCallback,
+    currentSortingMode,
+    currentSortingOrder,
 }:RankingHeaderRowComponentInterface) => {
 
+    const changeSortingCallback = (newMode: SortingModesEnum) => {
+        if(currentSortingMode === newMode){
+            changeSortingOrderCallback(currentSortingOrder === SortingOrdersEnum.Ascending ? SortingOrdersEnum.Descending : SortingOrdersEnum.Ascending );
+        }
+        else {
+            changeSortingModeCallback(newMode);
+            changeSortingOrderCallback(SortingOrdersEnum.Descending);
+        }
+    }
+
     return <RankingRow isHeader>
-        <RankingRowElem isClickable onClick={() => changeSortingCallback(SortingEnum.Position)}>
-            Pozycja
-        </RankingRowElem>
-        <RankingRowElem isClickable onClick={() => changeSortingCallback(SortingEnum.Name)}>
+        <RankingRowElem isClickable onClick={() => changeSortingCallback(SortingModesEnum.Name)}>
             Nazwa
         </RankingRowElem>
-        <RankingRowElem isClickable onClick={() => changeSortingCallback(SortingEnum.Money)}>
+        <RankingRowElem isClickable onClick={() => changeSortingCallback(SortingModesEnum.Money)}>
             Stan
         </RankingRowElem>
-        <RankingRowElem isClickable onClick={() => changeSortingCallback(SortingEnum.Change)}>
+        <RankingRowElem isClickable onClick={() => changeSortingCallback(SortingModesEnum.Change)}>
             Zmiana
         </RankingRowElem>
     </RankingRow>

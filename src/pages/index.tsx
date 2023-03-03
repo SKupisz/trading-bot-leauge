@@ -6,7 +6,7 @@ import RankingHeaderRowComponent from "@/components/rankingRows/RankingHeaderRow
 import TeamWidgetComponent from "@/components/teamWidget/teamWidgetComponent";
 
 
-import { SortingEnum } from "@/util/rankingEnums";
+import { SortingModesEnum, SortingOrdersEnum } from "@/util/rankingEnums";
 import { RankingContext } from "@/store/rankingContext";
 
 
@@ -19,21 +19,22 @@ type TeamType = {
 export default function Home() {
 
   const context = useContext(RankingContext)
-  const [currentSortingMode, setCurrentSortingMode] = useState<SortingEnum>(SortingEnum.Position);
+  const [currentSortingMode, setCurrentSortingMode] = useState<SortingModesEnum>(SortingModesEnum.Money);
+  const [currentSortingOrder, setCurrentSortingOrder] = useState<SortingOrdersEnum>(SortingOrdersEnum.Descending);
 
   const teams:TeamType[] = [
     {
-      name: "Team 1",
+      name: "firstteam",
       money: 10000,
       change: 0.1
     },
     {
-      name: "Team 2",
+      name: "secondteam",
       money: 8000,
       change: -0.02
     },
     {
-      name: "Team 3",
+      name: "thirdteam",
       money: 10100,
       change: 0.01
     },
@@ -42,34 +43,39 @@ export default function Home() {
   const sortedTeams = [...teams];
 
   switch(currentSortingMode){
-    case SortingEnum.Money:
-      sortedTeams.sort((team1, team2) => team2.money - team1.money);
+    case SortingModesEnum.Money:
+      sortedTeams.sort((team1, team2) => currentSortingOrder === SortingOrdersEnum.Ascending 
+      ?  team1.money - team2.money : team2.money - team1.money);
       break;
-    case SortingEnum.Name:
+    case SortingModesEnum.Name:
       sortedTeams.sort((team1, team2) => {
-        if(team1.name < team2.name) return -1;
-        if(team1.name > team2.name) return 1;
+        if(team1.name < team2.name) return currentSortingOrder === SortingOrdersEnum.Ascending ? 1 : -1;
+        if(team1.name > team2.name) return currentSortingOrder === SortingOrdersEnum.Ascending ? -1 : 1;
         return 0;
       });
-    case SortingEnum.Change:
-      sortedTeams.sort((team1, team2) => team2.change - team1.change);
+    case SortingModesEnum.Change:
+      sortedTeams.sort((team1, team2) => currentSortingOrder === SortingOrdersEnum.Ascending 
+      ?  team1.change - team2.change : team2.change - team1.change);
     default:
         break;
   }
 
   let teamsRows:JSX.Element[] = sortedTeams.map((elem:TeamType, index:number) => 
   <RankingRowComponent 
-    column1={(index+1).toString()}
-    column2={elem.name}
-    column3={elem.money.toString()+"$"}
-    column4={(elem.change*100).toString()+"%"}
+    column1={elem.name}
+    column2={elem.money.toString()+"$"}
+    column3={(elem.change*100).toString()+"%"}
     inspectTeamCallback={() => context.setCurrentlyInspectedTeamID(context.currentlyInspectedTeamID === index ? -1 : index)}
     />);
 
   return (
     <>
       <RankingWrapper>
-        <RankingHeaderRowComponent changeSortingCallback={setCurrentSortingMode}/>
+        <RankingHeaderRowComponent 
+          changeSortingModeCallback={setCurrentSortingMode} 
+          changeSortingOrderCallback={setCurrentSortingOrder}
+          currentSortingMode={currentSortingMode}
+          currentSortingOrder={currentSortingOrder}/>
         {
           teamsRows
         }
