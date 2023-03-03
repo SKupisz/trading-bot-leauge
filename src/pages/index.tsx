@@ -48,14 +48,13 @@ export default function Home() {
       ?  team1.money - team2.money : team2.money - team1.money);
       break;
     case SortingModesEnum.Name:
-      sortedTeams.sort((team1, team2) => {
-        if(team1.name < team2.name) return currentSortingOrder === SortingOrdersEnum.Ascending ? 1 : -1;
-        if(team1.name > team2.name) return currentSortingOrder === SortingOrdersEnum.Ascending ? -1 : 1;
-        return 0;
-      });
+      sortedTeams.sort((team1, team2) => currentSortingOrder === SortingOrdersEnum.Ascending ?
+      team2.name.localeCompare(team1.name) : team1.name.localeCompare(team2.name));
+      break;
     case SortingModesEnum.Change:
       sortedTeams.sort((team1, team2) => currentSortingOrder === SortingOrdersEnum.Ascending 
       ?  team1.change - team2.change : team2.change - team1.change);
+      break;
     default:
         break;
   }
