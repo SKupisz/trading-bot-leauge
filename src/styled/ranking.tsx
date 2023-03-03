@@ -4,6 +4,10 @@ interface RankingRowInterface {
     isHeader?: boolean
 }
 
+interface RankingRowElemInterface{
+    isClickable?: boolean
+}
+
 export const RankingWrapper = styled.section`
     width: calc(98% - 20px);
     padding: 10px;
@@ -63,13 +67,22 @@ export const RankingRow = styled.div<RankingRowInterface>`
 
 `;
 
-export const RankingRowElem = styled.span`
+export const RankingRowElem = styled.span<RankingRowElemInterface>`
     width: calc(25% - 8px);
     margin: 0px 4px;
     font-size: 1.15em;
     letter-spacing: 0.04em;
     color: ${(props) => props.theme.textColor};
     text-shadow: ${(props) => props.theme.textShadow};
+
+    ${(props) => props.isClickable !== undefined ? `
+        cursor: pointer;
+        transition: filter 0.4s;
+
+        &:hover{
+            filter: brightness(70%);
+        }
+    ` : null}
 
     @media screen and (min-width: 425px){
         font-size: 1.35em;

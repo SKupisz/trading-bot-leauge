@@ -1,5 +1,9 @@
+import { useState } from "react";
 import { RankingWrapper } from "@/styled/ranking"
 import RankingRowComponent from "@/components/RankingRowComponent"
+import RankingHeaderRowComponent from "@/components/RankingHeaderRowComponent";
+import { SortingEnum } from "@/util/rankingEnums";
+
 
 type TeamType = {
   name: string;
@@ -8,6 +12,8 @@ type TeamType = {
 }
 
 export default function Home() {
+
+  const [currentSortingMode, setCurrentSortingMode] = useState<SortingEnum>(SortingEnum.Position);
 
   const teams:TeamType[] = [
     {
@@ -25,18 +31,12 @@ export default function Home() {
       money: 10100,
       change: 0.01
     },
-  ]
+  ];
 
   return (
     <>
       <RankingWrapper>
-        <RankingRowComponent 
-          isHeader 
-          column1="Pozycja"
-          column2="Nazwa"
-          column3="Stan"
-          column4="Zmiana"
-          />
+        <RankingHeaderRowComponent changeSortingCallback={setCurrentSortingMode}/>
         {
           teams.map((elem:TeamType, index:number) => 
             <RankingRowComponent 
