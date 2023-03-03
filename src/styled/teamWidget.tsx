@@ -2,9 +2,9 @@ import { motion } from "framer-motion";
 import styled from "styled-components";
 
 export const TeamWidgetWrapper = styled(motion.section)`
-    width: calc(100% - 20px);
+    width: 100%;
     height: calc(100vh - 20px);
-    padding: 10px;
+    padding: 10px 0px;
     position: fixed;
     top: 0px;
     left: 0%;
@@ -13,21 +13,34 @@ export const TeamWidgetWrapper = styled(motion.section)`
     box-shadow: -10px 0px 10px ${(props) => props.theme.rowBackgroundColor}62;
     color: ${(props) => props.theme.textColor};
 
+    &::before{
+        content: '';
+        width: 100%;
+        height: 100%;
+        border-radius: 0px 50% 0px 0px;
+        background: linear-gradient(90deg, ${(props) => props.theme.rowBackgroundColor}27 1%,  ${(props) => props.theme.backgroundColor}f2 100%);
+        box-shadow: 5px -5px 10px ${(props) => props.theme.backgroundColor}02;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+
     @media screen and (min-width: 375px){
-        width: calc(90% - 20px);
+        width: 90%;
         left: 10%;
     }
 
     @media screen and (min-width: 425px){
-        width: calc(80% - 20px);
+        width: 80%
     }
 
     @media screen and (min-width: 768px){
-        width: calc(60% - 20px);
+        width: 60%
     }
 
     @media screen and (min-width: 1024px){
-        width: calc(45% - 20px);
+        width: 45%;
     }
 `;
 
