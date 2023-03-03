@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { RankingWrapper } from "@/styled/ranking"
+
 import RankingRowComponent from "@/components/RankingRowComponent"
 import RankingHeaderRowComponent from "@/components/RankingHeaderRowComponent";
+
 import { SortingEnum } from "@/util/rankingEnums";
+import { RankingContext } from "@/store/rankingContext";
 
 
 type TeamType = {
@@ -13,6 +16,7 @@ type TeamType = {
 
 export default function Home() {
 
+  const context = useContext(RankingContext)
   const [currentSortingMode, setCurrentSortingMode] = useState<SortingEnum>(SortingEnum.Position);
 
   const teams:TeamType[] = [
@@ -57,6 +61,7 @@ export default function Home() {
     column2={elem.name}
     column3={elem.money.toString()+"$"}
     column4={(elem.change*100).toString()+"%"}
+    inspectTeamCallback={() => context.setCurrentlyInspectedTeamID(context.currentlyInspectedTeamID === index ? -1 : index)}
     />);
 
   return (

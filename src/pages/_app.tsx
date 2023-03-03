@@ -4,6 +4,7 @@ import { Mohave } from 'next/font/google'
 
 import { GlobalStyle, Theme } from '@/styled/main'
 import { ThemeProvider } from 'styled-components'
+import RankingContextProvider from '@/store/rankingContext'
 
 const mohave = Mohave({
   weight: "500",
@@ -19,10 +20,12 @@ export default function App({ Component, pageProps }: AppProps) {
     <link rel="icon" href="/favicon.icon" />
   </Head>
   <main className={mohave.className}>
-    <ThemeProvider theme={Theme}>
-      <GlobalStyle />
-      <Component {...pageProps} />
-    </ThemeProvider>
+    <RankingContextProvider>
+      <ThemeProvider theme={Theme}>
+        <GlobalStyle />
+        <Component {...pageProps} />
+      </ThemeProvider>
+    </RankingContextProvider>
   </main>
   </>
 }

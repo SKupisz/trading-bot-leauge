@@ -6,12 +6,13 @@ interface RankingRowComponentInterface {
     column2: string,
     column3: string,
     column4: string,
+    inspectTeamCallback: () => void,
 }
 
 const RankingRowComponent:React.FC<RankingRowComponentInterface> = ({
-    isHeader, column1, column2, column3, column4
+    isHeader, column1, column2, column3, column4, inspectTeamCallback
 }:RankingRowComponentInterface) => {
-    return <RankingRow isHeader={isHeader !== undefined}>
+    return <RankingRow isHeader={isHeader !== undefined} onClick={inspectTeamCallback}>
         <RankingRowElem>
             {column1}
         </RankingRowElem>
