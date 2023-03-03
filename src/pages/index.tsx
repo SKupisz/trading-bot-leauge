@@ -33,18 +33,38 @@ export default function Home() {
     },
   ];
 
+  const sortedTeams = [...teams];
+
+  switch(currentSortingMode){
+    case SortingEnum.Money:
+      sortedTeams.sort((team1, team2) => team2.money - team1.money);
+      break;
+    case SortingEnum.Name:
+      sortedTeams.sort((team1, team2) => {
+        if(team1.name < team2.name) return -1;
+        if(team1.name > team2.name) return 1;
+        return 0;
+      });
+    case SortingEnum.Change:
+      sortedTeams.sort((team1, team2) => team2.change - team1.change);
+    default:
+        break;
+  }
+
+  let teamsRows:JSX.Element[] = sortedTeams.map((elem:TeamType, index:number) => 
+  <RankingRowComponent 
+    column1={(index+1).toString()}
+    column2={elem.name}
+    column3={elem.money.toString()+"$"}
+    column4={(elem.change*100).toString()+"%"}
+    />);
+
   return (
     <>
       <RankingWrapper>
         <RankingHeaderRowComponent changeSortingCallback={setCurrentSortingMode}/>
         {
-          teams.map((elem:TeamType, index:number) => 
-            <RankingRowComponent 
-              column1={(index+1).toString()}
-              column2={elem.name}
-              column3={elem.money.toString()+"$"}
-              column4={(elem.change*100).toString()+"%"}
-              />)
+          teamsRows
         }
       </RankingWrapper>
     </>
