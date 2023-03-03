@@ -32,11 +32,11 @@ export const TeamWidgetWrapper = styled(motion.section)`
     }
 
     @media screen and (min-width: 425px){
-        width: 80%
+        width: 80%;
     }
 
     @media screen and (min-width: 768px){
-        width: 60%
+        width: 60%;
     }
 
     @media screen and (min-width: 1024px){

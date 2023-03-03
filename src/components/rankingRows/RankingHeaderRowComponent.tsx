@@ -1,4 +1,7 @@
 import React, { Dispatch, SetStateAction } from "react";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+
 import { RankingRow, RankingRowElem } from "@/styled/ranking";
 import { SortingModesEnum, SortingOrdersEnum } from "@/util/rankingEnums";
 
@@ -27,15 +30,40 @@ const RankingHeaderRowComponent:React.FC<RankingHeaderRowComponentInterface>
         }
     }
 
+    const dropDownUpStyle = {
+        color: "inherit",
+        fontSize: "inherit",
+        display: "inline-block",
+        verticalAlign: "middle"
+    }
+
     return <RankingRow isHeader>
         <RankingRowElem isClickable onClick={() => changeSortingCallback(SortingModesEnum.Name)}>
-            Nazwa
+            Nazwa {
+                currentSortingMode === SortingModesEnum.Name ? 
+                currentSortingOrder === SortingOrdersEnum.Descending ?
+                <ArrowDropDownIcon style={dropDownUpStyle} />
+                : <ArrowDropUpIcon style={dropDownUpStyle} />
+                : null
+            }
         </RankingRowElem>
         <RankingRowElem isClickable onClick={() => changeSortingCallback(SortingModesEnum.Money)}>
-            Stan
+            Stan {
+                currentSortingMode === SortingModesEnum.Money ? 
+                currentSortingOrder === SortingOrdersEnum.Descending ?
+                <ArrowDropDownIcon style={dropDownUpStyle} />
+                : <ArrowDropUpIcon style={dropDownUpStyle} />
+                : null
+            }
         </RankingRowElem>
         <RankingRowElem isClickable onClick={() => changeSortingCallback(SortingModesEnum.Change)}>
-            Zmiana
+            Zmiana {
+                currentSortingMode === SortingModesEnum.Change ? 
+                currentSortingOrder === SortingOrdersEnum.Descending ?
+                <ArrowDropDownIcon style={dropDownUpStyle} />
+                : <ArrowDropUpIcon style={dropDownUpStyle} />
+                : null
+            }
         </RankingRowElem>
     </RankingRow>
 };
