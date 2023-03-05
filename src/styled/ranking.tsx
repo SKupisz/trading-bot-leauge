@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import styled from "styled-components";
 
 interface RankingRowInterface {
@@ -8,7 +9,7 @@ interface RankingRowElemInterface{
     isClickable?: boolean
 }
 
-export const RankingWrapper = styled.section`
+export const RankingWrapper = styled(motion.section)`
     width: calc(98% - 20px);
     padding: 10px;
     text-align: center;
@@ -69,9 +70,9 @@ export const RankingRow = styled.div<RankingRowInterface>`
 `;
 
 export const RankingRowElem = styled.span<RankingRowElemInterface>`
-    width: calc(25% - 8px);
+    width: calc(33% - 8px);
     margin: 0px 4px;
-    font-size: 1.15em;
+    font-size: 1em;
     letter-spacing: 0.04em;
     color: ${(props) => props.theme.textColor};
     text-shadow: ${(props) => props.theme.textShadow};
@@ -85,7 +86,15 @@ export const RankingRowElem = styled.span<RankingRowElemInterface>`
         }
     ` : null}
 
+    @media screen and (min-width: 375px){
+        font-size: 1.15em;
+    }
+
     @media screen and (min-width: 425px){
+        font-size: 1.15em;
+    }
+
+    @media screen and (min-width: 475px){
         font-size: 1.35em;
     }
 
