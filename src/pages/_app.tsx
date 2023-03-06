@@ -1,9 +1,12 @@
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { Mohave } from 'next/font/google'
+import { ThemeProvider } from 'styled-components'
 
 import { GlobalStyle, Theme } from '@/styled/main'
-import { ThemeProvider } from 'styled-components'
+import MainNavbar from '@/components/navbar/mainNavbar'
+import { ContentContainer } from '@/styled/navbar'
+
 import RankingContextProvider from '@/store/rankingContext'
 
 const mohave = Mohave({
@@ -23,7 +26,10 @@ export default function App({ Component, pageProps }: AppProps) {
     <RankingContextProvider>
       <ThemeProvider theme={Theme}>
         <GlobalStyle />
-        <Component {...pageProps} />
+        <MainNavbar />
+        <ContentContainer>
+          <Component {...pageProps} />
+        </ContentContainer>
       </ThemeProvider>
     </RankingContextProvider>
   </main>

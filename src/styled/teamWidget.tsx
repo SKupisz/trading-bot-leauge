@@ -6,7 +6,7 @@ export const TeamWidgetWrapper = styled(motion.section)`
     height: calc(100vh - 20px);
     padding: 10px 0px;
     position: fixed;
-    top: 0px;
+    top: 10vh;
     left: 0%;
     z-index: 3;
     background: ${(props) => props.theme.backgroundColor}f2;
@@ -36,6 +36,7 @@ export const TeamWidgetWrapper = styled(motion.section)`
     }
 
     @media screen and (min-width: 768px){
+        top: 0px;
         width: 60%;
     }
 

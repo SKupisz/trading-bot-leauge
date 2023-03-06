@@ -3,6 +3,7 @@ import styled, { createGlobalStyle } from "styled-components";
 export const Theme = {
     backgroundColor: "#191825",
     rowBackgroundColor: "#5D41B2",
+    navbarBackgroundColor: "#38266f",
     textColor: "#DED9EF",
     textShadow: "3px 3px 4px rgba(222,217,239,.2)",
     textShadowGlowup: "3px 3px 10px rgba(93,65,178,.9)",
