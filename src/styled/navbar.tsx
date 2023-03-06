@@ -25,7 +25,12 @@ export const NavbarContainer = styled(motion.nav)`
 
     @media screen and (min-width: 768px){
         width: fit-content;
+        min-width: calc(20% - 10px);
         border-radius: 0px 0px 50px 0px;
+    }
+
+    @media screen and (min-width: 1024px){
+        min-width: calc(15% - 10px);
     }
 `;
 
