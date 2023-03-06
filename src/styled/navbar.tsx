@@ -25,12 +25,12 @@ export const NavbarContainer = styled(motion.nav)`
 
     @media screen and (min-width: 768px){
         width: fit-content;
-        border-radius: 0px 0px 80px 0px;
+        border-radius: 0px 0px 50px 0px;
     }
 `;
 
 export const NavbarIcon = styled.div`
-    font-size: 1.7em;
+    font-size: 2.6em;
     color: inherit;
     width: calc(100% - 20px);
     height: fit-content;
@@ -44,7 +44,8 @@ export const NavbarIcon = styled.div`
     }
 
     @media screen and (min-width: 768px){
-        font-size: 1.9em;
+        width: calc(100% - 20px);
+        font-size: 3.2em;
     }
 `;
 
