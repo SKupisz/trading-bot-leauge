@@ -28,7 +28,7 @@ const MainNavbar:React.FC = () => {
                     Główna
                 </NavbarElem>
             </Link>
-            <Link href="/regulamin" onClick={() => toggleIsOpened((currentState: boolean) => !currentState)}>
+            <Link href="/regulations" onClick={() => toggleIsOpened((currentState: boolean) => !currentState)}>
                 <NavbarElem>
                     Regulamin
                 </NavbarElem>

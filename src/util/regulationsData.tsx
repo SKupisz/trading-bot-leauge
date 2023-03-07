@@ -18,8 +18,8 @@ export const regulationsData:regulationsType[] = [
         title: "Tydzień testowy",
         points: [
             "Tydzień testowy rozpoczyna się 13.03.2023 i kończy się 19.03.2023.",
-            `W tym czasie drużyny zakładają na własną odpowiedzialność konto demo na stronie brokera XTB (${<a href="https://www.xtb.com/pl/demo-account">https://www.xtb.com/pl/demo-account</a>}).`,
-            `W tym czasie drużyny mają dostęp do XTB API (${<a href="http://developers.xstore.pro/api">http://developers.xstore.pro/api</a>}).`,
+            `W tym czasie drużyny zakładają na własną odpowiedzialność konto demo na stronie brokera XTB (https://www.xtb.com/pl/demo-account).`,
+            `W tym czasie drużyny mają dostęp do XTB API (https://developers.xstore.pro/api).`,
             "Drużyny nie mają prawa korzystać z konta demo w rzeczywistych celach inwestycyjnych."
         ]
     },
