@@ -17,7 +17,7 @@ const mohave = Mohave({
 export default function App({ Component, pageProps }: AppProps) {
   return <>
   <Head>
-    <title>XTB ranking - main page</title>
+    <title>Trading Bot Leauge - główna</title>
     <meta name="description" content="Projekt KNI PW mający na celu sprawdzić zastosowanie różnych metod inwestycyjnych" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="/favicon.icon" />
