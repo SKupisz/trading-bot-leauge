@@ -92,13 +92,31 @@ export const TeamWidgetClosingBtn = styled.button`
 `;
 
 export const TeamWidgetInfoContainer = styled.div`
-    width: calc(70% - 20px);
+    width: calc(98% - 20px);
     height: fit-content;
     display: flex;
     flex-direction: column;
+    align-items: center;
     position: relative;
-    left: 15%;
+    left: 1%;
     top: 4vh;
+    color: ${(props) => props.theme.textColor};
+    text-shadow: ${(props) => props.theme.textShadowGlowup};
+
+    @media screen and (min-width: 375px){
+        width: calc(90% - 20px);
+        left: 5%;
+    }
+
+    @media screen and (min-width: 768px){
+        width: calc(80% - 20px);
+        left: 10%;
+    }
+
+    @media screen and (min-width: 1024px){
+        width: calc(70% - 20px);
+        left: 15%;
+    }
 `;
 
 export const TeamWidgetErrorHeader = styled.header`
@@ -108,4 +126,16 @@ export const TeamWidgetErrorHeader = styled.header`
     font-size: 1.9em;
     letter-spacing: 0.04em;
     text-shadow: ${(props) => props.theme.textShadowGlowup};
+`;
+
+export const TeamWidgetTeamInfo = styled.div`
+    width: calc(100% - 20px);
+    padding: 10px;
+    text-align: center;
+    font-size: 1.2em;
+    letter-spacing: 0.04em;
+
+    @media screen and (min-width: 1024px){
+        font-size: 1.4em;
+    }
 `;

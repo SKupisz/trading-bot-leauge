@@ -4,8 +4,9 @@ import { AnimatePresence } from "framer-motion";
 import { useMediaQuery } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 
-import { TeamWidgetClosingBtn, TeamWidgetErrorHeader, TeamWidgetHeader, TeamWidgetInfoContainer, TeamWidgetWrapper } from "@/styled/teamWidget";
+import { TeamWidgetClosingBtn, TeamWidgetErrorHeader, TeamWidgetHeader, TeamWidgetInfoContainer, TeamWidgetTeamInfo, TeamWidgetWrapper } from "@/styled/teamWidget";
 import { RankingContext, TeamType } from "@/store/rankingContext";
+import { BALANCE_INITIAL_DATA } from "@/util/rankingConstants";
 
 type transactionDataType = {
     open_price: number;
@@ -26,6 +27,7 @@ const TeamWidgetComponent:React.FC = () => {
     const context = useContext(RankingContext);
 
     const isOpened = context.currentlyInspectedTeamID.localeCompare("") !== 0;
+    const currentTeamPointer = context.teams.filter((elem: TeamType) => elem.id.localeCompare(context.currentlyInspectedTeamID) === 0);
 
     const [transactionData, setTransactionData] = useState<transactionDataType[]>([]);
     const [isError, toggleIsError] = useState<boolean>(false);
@@ -64,13 +66,21 @@ const TeamWidgetComponent:React.FC = () => {
                     onClick={() => context.setCurrentlyInspectedTeamID("")}/>
             </TeamWidgetClosingBtn>
             <TeamWidgetHeader>
-                {isOpened ? context.teams.filter((elem: TeamType) => elem.id.localeCompare(context.currentlyInspectedTeamID) === 0)[0].teamName : null}
+                {isOpened ? currentTeamPointer[0].teamName : null}
             </TeamWidgetHeader>
             <TeamWidgetInfoContainer>
                 {isOpened ? isError ? <TeamWidgetErrorHeader>
                     Błąd sieciowy. Spróbuj ponownie
                 </TeamWidgetErrorHeader> : <>
-
+                    <TeamWidgetTeamInfo>
+                        Wartość początkowa: {BALANCE_INITIAL_DATA}PLN
+                    </TeamWidgetTeamInfo>
+                    <TeamWidgetTeamInfo>
+                        Wartość całkowita: {currentTeamPointer[0].returnData.equity}PLN
+                    </TeamWidgetTeamInfo>
+                    <TeamWidgetTeamInfo>
+                        Zmiana od początku gry: {(currentTeamPointer[0].returnData.equity/BALANCE_INITIAL_DATA).toFixed(2)}%
+                    </TeamWidgetTeamInfo>
                 </> : null}
             </TeamWidgetInfoContainer>
         </TeamWidgetWrapper>
