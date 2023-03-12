@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import axios from "axios";
 
-import { RankingWrapper } from "@/styled/ranking"
+import { RankingWrapper, RankingRow, RankingRowErrorLoadingElem } from "@/styled/ranking"
 
 import RankingRowComponent from "@/components/rankingRows/RankingRowComponent"
 import RankingHeaderRowComponent from "@/components/rankingRows/RankingHeaderRowComponent";
@@ -17,8 +17,10 @@ import { LastUpdateDataHeader } from "@/styled/main";
 export default function Home({fetchedTeams}:{fetchedTeams: TeamType[]}) {
 
   const context = useContext(RankingContext);
+
   const [currentSortingMode, setCurrentSortingMode] = useState<SortingModesEnum>(SortingModesEnum.Money);
   const [currentSortingOrder, setCurrentSortingOrder] = useState<SortingOrdersEnum>(SortingOrdersEnum.Descending);
+  const [isError, toggleIsError] = useState<boolean>(false);
 
   const sortedTeams = context.teams.length === 0 ? [...fetchedTeams] : [...context.teams];
 
@@ -53,6 +55,21 @@ export default function Home({fetchedTeams}:{fetchedTeams: TeamType[]}) {
       }
     }, [fetchedTeams]);
 
+    useEffect(() => {
+      async function getRows(){
+        toggleIsError(false);
+        try {
+          const response = await axios.get(`${process.env.NEXT_PUBLIC_API_ADDRESS}/refresh`);
+          const data = response.data;
+          context.setTeams(data);
+        } catch {
+          toggleIsError(true);
+        }
+      }
+
+      getRows();
+    }, []);
+
   return (
     <>
       <LastUpdateDataHeader>
@@ -73,7 +90,11 @@ export default function Home({fetchedTeams}:{fetchedTeams: TeamType[]}) {
             currentSortingMode={currentSortingMode}
             currentSortingOrder={currentSortingOrder}/>
           {
-            teamsRows
+            teamsRows.length === 0 || isError ? <RankingRow isHeader={false}>
+                <RankingRowErrorLoadingElem>
+                  {isError ? "Błąd połączenia" : "Ładowanie..."}
+                </RankingRowErrorLoadingElem>
+            </RankingRow> : teamsRows
           }
         </RankingWrapper>
       </AnimatePresence>

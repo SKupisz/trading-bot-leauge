@@ -106,3 +106,16 @@ export const RankingRowElem = styled.span<RankingRowElemInterface>`
         font-size: 1.8em;
     }
 `;
+
+export const RankingRowErrorLoadingElem = styled.span`
+    width: calc(100% - 20px);
+    padding: 0px 10px;
+    font-size: 1.4em;
+    letter-spacing: 0.04em;
+    color: ${(props) => props.theme.textColor};
+    text-shadow: ${(props) => props.theme.textShadow};
+
+    @media screen and (min-width: 768px){
+        font-size: 1.8em;
+    }
+`;
