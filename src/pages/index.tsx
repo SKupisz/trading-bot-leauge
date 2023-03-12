@@ -6,7 +6,6 @@ import { RankingWrapper } from "@/styled/ranking"
 
 import RankingRowComponent from "@/components/rankingRows/RankingRowComponent"
 import RankingHeaderRowComponent from "@/components/rankingRows/RankingHeaderRowComponent";
-import TeamWidgetComponent from "@/components/teamWidget/teamWidgetComponent";
 
 
 import { SortingModesEnum, SortingOrdersEnum } from "@/util/rankingEnums";
@@ -15,13 +14,13 @@ import { BALANCE_INITIAL_DATA } from "@/util/rankingConstants";
 
 import { LastUpdateDataHeader } from "@/styled/main";
 
-export default function Home({teams}:{teams: TeamType[]}) {
+export default function Home({fetchedTeams}:{fetchedTeams: TeamType[]}) {
 
-  const context = useContext(RankingContext)
+  const context = useContext(RankingContext);
   const [currentSortingMode, setCurrentSortingMode] = useState<SortingModesEnum>(SortingModesEnum.Money);
   const [currentSortingOrder, setCurrentSortingOrder] = useState<SortingOrdersEnum>(SortingOrdersEnum.Descending);
 
-  const sortedTeams = [...teams];
+  const sortedTeams = context.teams.length === 0 ? [...fetchedTeams] : [...context.teams];
 
   switch(currentSortingMode){
     case SortingModesEnum.Money:
@@ -44,13 +43,15 @@ export default function Home({teams}:{teams: TeamType[]}) {
   <RankingRowComponent 
     column1={elem.teamName}
     column2={elem.returnData.equity}
-    column3={(elem.returnData.equity/ BALANCE_INITIAL_DATA).toFixed(2)+"%"}
+    column3={(elem.returnData.equity / BALANCE_INITIAL_DATA).toFixed(2)+"%"}
     inspectTeamCallback={() => context.setCurrentlyInspectedTeamID(context.currentlyInspectedTeamID === elem.id ? "" : elem.id)}
     />);
 
     useEffect(() => {
-      context.setTeams(teams);
-    }, []);
+      if(context.teams.length === 0){
+        context.setTeams(fetchedTeams);
+      }
+    }, [fetchedTeams]);
 
   return (
     <>
@@ -76,20 +77,31 @@ export default function Home({teams}:{teams: TeamType[]}) {
           }
         </RankingWrapper>
       </AnimatePresence>
-      <TeamWidgetComponent />
     </>
   )
 }
 
 export async function getStaticProps(){
-  const response = await axios.get(`${process.env.NEXT_PUBLIC_API_ADDRESS}/get-data`);
+  try{
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_ADDRESS}/get-data`);
+  
+    const data = await response.data;
 
-  const data = response.data;
+    return {
+      props: {
+        fetchedTeams: data
+      },
+      revalidate: 10
+    }
+  } catch(error){
+    console.log(error);
+  }
 
   return {
     props: {
-      teams: data
-    }
+      fetchedTeams: []
+    },
+    revalidate: 10
   }
 
 }

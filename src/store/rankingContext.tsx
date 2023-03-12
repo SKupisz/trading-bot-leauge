@@ -37,7 +37,7 @@ const rankingReducer = (state:stateType, action:actionType) => {
         case SET_INSPECTED_TEAM_INDEX:
             return {...state, currentlyInspectedTeamID: action.payload};
         case SET_TEAMS: 
-            return {...state, teams: action.payload};
+            return {...state, teams: [...action.payload]};
         default:
             return {...state};
     }
@@ -67,11 +67,11 @@ const RankingContextProvider:React.FC<RankingContextProviderInterface> = ({
     const setTeams = (newTeams: TeamType[]) => dispatch({
         type: SET_TEAMS,
         payload: newTeams
-    })
+    });
 
     const value:rankingContextType = {
         currentlyInspectedTeamID: rankingState.currentlyInspectedTeamID,
-        teams: [],
+        teams: rankingState.teams,
         setCurrentlyInspectedTeamID: setNewTeamID,
         setTeams: setTeams
     }

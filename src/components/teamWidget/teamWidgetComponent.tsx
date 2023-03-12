@@ -5,7 +5,7 @@ import { useMediaQuery } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 
 import { TeamWidgetClosingBtn, TeamWidgetErrorHeader, TeamWidgetHeader, TeamWidgetInfoContainer, TeamWidgetWrapper } from "@/styled/teamWidget";
-import { RankingContext } from "@/store/rankingContext";
+import { RankingContext, TeamType } from "@/store/rankingContext";
 
 type transactionDataType = {
     open_price: number;
@@ -25,7 +25,7 @@ const TeamWidgetComponent:React.FC = () => {
 
     const context = useContext(RankingContext);
 
-    const isOpened = context.currentlyInspectedTeamID !== "";
+    const isOpened = context.currentlyInspectedTeamID.localeCompare("") !== 0;
 
     const [transactionData, setTransactionData] = useState<transactionDataType[]>([]);
     const [isError, toggleIsError] = useState<boolean>(false);
@@ -49,7 +49,7 @@ const TeamWidgetComponent:React.FC = () => {
         }
 
     }, [isOpened]);
-
+    
     return <AnimatePresence>
         <TeamWidgetWrapper layout initial={{
             left: "105%"
@@ -64,7 +64,7 @@ const TeamWidgetComponent:React.FC = () => {
                     onClick={() => context.setCurrentlyInspectedTeamID("")}/>
             </TeamWidgetClosingBtn>
             <TeamWidgetHeader>
-                {isOpened ? "Test team" : null}
+                {isOpened ? context.teams.filter((elem: TeamType) => elem.id.localeCompare(context.currentlyInspectedTeamID) === 0)[0].teamName : null}
             </TeamWidgetHeader>
             <TeamWidgetInfoContainer>
                 {isOpened ? isError ? <TeamWidgetErrorHeader>

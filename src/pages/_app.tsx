@@ -2,12 +2,14 @@ import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { Mohave } from 'next/font/google'
 import { ThemeProvider } from 'styled-components'
+import { AnimatePresence } from 'framer-motion'
 
 import { GlobalStyle, Theme } from '@/styled/main'
 import MainNavbar from '@/components/navbar/mainNavbar'
 import { ContentContainer } from '@/styled/navbar'
 
 import RankingContextProvider from '@/store/rankingContext'
+import TeamWidgetComponent from '@/components/teamWidget/teamWidgetComponent'
 
 const mohave = Mohave({
   weight: "500",
@@ -29,6 +31,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <MainNavbar />
         <ContentContainer>
           <Component {...pageProps} />
+          <AnimatePresence>
+           <TeamWidgetComponent />
+          </AnimatePresence>
         </ContentContainer>
       </ThemeProvider>
     </RankingContextProvider>
