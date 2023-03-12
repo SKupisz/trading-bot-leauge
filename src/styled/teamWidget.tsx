@@ -96,4 +96,16 @@ export const TeamWidgetInfoContainer = styled.div`
     height: fit-content;
     display: flex;
     flex-direction: column;
-`
+    position: relative;
+    left: 15%;
+    top: 4vh;
+`;
+
+export const TeamWidgetErrorHeader = styled.header`
+    width: calc(100% - 20px);
+    padding: 10px;
+    text-align: center;
+    font-size: 1.9em;
+    letter-spacing: 0.04em;
+    text-shadow: ${(props) => props.theme.textShadowGlowup};
+`;

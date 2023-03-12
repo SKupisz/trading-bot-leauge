@@ -1,4 +1,7 @@
 import { useContext, useState } from "react";
+import { AnimatePresence } from "framer-motion";
+import axios from "axios";
+
 import { RankingWrapper } from "@/styled/ranking"
 
 import RankingRowComponent from "@/components/rankingRows/RankingRowComponent"
@@ -8,54 +11,40 @@ import TeamWidgetComponent from "@/components/teamWidget/teamWidgetComponent";
 
 import { SortingModesEnum, SortingOrdersEnum } from "@/util/rankingEnums";
 import { RankingContext } from "@/store/rankingContext";
-import { LastUpdateDataHeader } from "@/styled/main";
-import { AnimatePresence } from "framer-motion";
+import { BALANCE_INITIAL_DATA } from "@/util/rankingConstants";
 
+import { LastUpdateDataHeader } from "@/styled/main";
 
 type TeamType = {
-  name: string;
-  money: number;
-  change: number;
+  teamName: string;
+  id: string;
+  time: string | Date;
+  returnData: {
+    balance: number;
+    equity: number;
+  }
 }
 
-export default function Home() {
+export default function Home({teams}:{teams: TeamType[]}) {
 
   const context = useContext(RankingContext)
   const [currentSortingMode, setCurrentSortingMode] = useState<SortingModesEnum>(SortingModesEnum.Money);
   const [currentSortingOrder, setCurrentSortingOrder] = useState<SortingOrdersEnum>(SortingOrdersEnum.Descending);
-
-  const teams:TeamType[] = [
-    {
-      name: "firstteam",
-      money: 10000,
-      change: 0.1
-    },
-    {
-      name: "secondteam",
-      money: 8000,
-      change: -0.02
-    },
-    {
-      name: "thirdteam",
-      money: 10100,
-      change: 0.01
-    },
-  ];
 
   const sortedTeams = [...teams];
 
   switch(currentSortingMode){
     case SortingModesEnum.Money:
       sortedTeams.sort((team1, team2) => currentSortingOrder === SortingOrdersEnum.Ascending 
-      ?  team1.money - team2.money : team2.money - team1.money);
+      ?  team1.returnData.equity - team2.returnData.equity : team2.returnData.equity - team1.returnData.equity);
       break;
     case SortingModesEnum.Name:
       sortedTeams.sort((team1, team2) => currentSortingOrder === SortingOrdersEnum.Ascending ?
-      team2.name.localeCompare(team1.name) : team1.name.localeCompare(team2.name));
+      team2.teamName.localeCompare(team1.teamName) : team1.teamName.localeCompare(team2.teamName));
       break;
     case SortingModesEnum.Change:
       sortedTeams.sort((team1, team2) => currentSortingOrder === SortingOrdersEnum.Ascending 
-      ?  team1.change - team2.change : team2.change - team1.change);
+      ?  team1.returnData.balance - team2.returnData.balance : team2.returnData.balance - team1.returnData.balance);
       break;
     default:
         break;
@@ -63,21 +52,21 @@ export default function Home() {
 
   let teamsRows:JSX.Element[] = sortedTeams.map((elem:TeamType, index:number) => 
   <RankingRowComponent 
-    column1={elem.name}
-    column2={elem.money}
-    column3={(elem.change*100).toString()+"%"}
-    inspectTeamCallback={() => context.setCurrentlyInspectedTeamID(context.currentlyInspectedTeamID === index ? -1 : index)}
+    column1={elem.teamName}
+    column2={elem.returnData.equity}
+    column3={(elem.returnData.equity/ BALANCE_INITIAL_DATA).toFixed(2)+"%"}
+    inspectTeamCallback={() => context.setCurrentlyInspectedTeamID(context.currentlyInspectedTeamID === elem.id ? "" : elem.id)}
     />);
 
   return (
     <>
       <LastUpdateDataHeader>
-        Ostatnia aktualizacja: HH:MM
+        Dane aktualizowane co 20 minut
       </LastUpdateDataHeader>
       <AnimatePresence>
         <RankingWrapper layout initial={{transform: "scale(1.0)"}}
           animate={{
-            transform: `scale(${context.currentlyInspectedTeamID === -1 ? "1.0" : "0.9"})`,
+            transform: `scale(${context.currentlyInspectedTeamID === "" ? "1.0" : "0.9"})`,
           }}
           transition={{
             duration: 0.1
@@ -96,4 +85,17 @@ export default function Home() {
       <TeamWidgetComponent />
     </>
   )
+}
+
+export async function getStaticProps(){
+  const response = await axios.get(`${process.env.NEXT_PUBLIC_API_ADDRESS}/get-data`);
+
+  const data = response.data;
+
+  return {
+    props: {
+      teams: data
+    }
+  }
+
 }

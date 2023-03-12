@@ -2,7 +2,7 @@ import React, {createContext, useReducer} from "react";
 import { SET_INSPECTED_TEAM_INDEX } from "@/util/rankingConstants"
 
 type stateType = {
-    currentlyInspectedTeamID: number;
+    currentlyInspectedTeamID: string;
 }
 
 type actionType = {
@@ -11,8 +11,8 @@ type actionType = {
 }
 
 type rankingContextType = {
-    currentlyInspectedTeamID: number;
-    setCurrentlyInspectedTeamID: (newID: number) => void;
+    currentlyInspectedTeamID: string;
+    setCurrentlyInspectedTeamID: (newID: string) => void;
 }
 
 interface RankingContextProviderInterface {
@@ -29,8 +29,8 @@ const rankingReducer = (state:stateType, action:actionType) => {
 };
 
 export const RankingContext = createContext<rankingContextType>({
-    currentlyInspectedTeamID: -1,
-    setCurrentlyInspectedTeamID: (newId: number) => {}
+    currentlyInspectedTeamID: "",
+    setCurrentlyInspectedTeamID: (newId: string) => {}
 })
 
 const RankingContextProvider:React.FC<RankingContextProviderInterface> = ({
@@ -38,10 +38,10 @@ const RankingContextProvider:React.FC<RankingContextProviderInterface> = ({
 }:RankingContextProviderInterface) => {
 
     const [rankingState, dispatch] = useReducer(rankingReducer, {
-        currentlyInspectedTeamID: -1
+        currentlyInspectedTeamID: ""
     });
 
-    const setNewTeamID = (newID: number) => dispatch({
+    const setNewTeamID = (newID: string) => dispatch({
         type: SET_INSPECTED_TEAM_INDEX,
         payload: newID
     });
