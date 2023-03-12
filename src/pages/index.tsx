@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import axios from "axios";
 
@@ -10,20 +10,10 @@ import TeamWidgetComponent from "@/components/teamWidget/teamWidgetComponent";
 
 
 import { SortingModesEnum, SortingOrdersEnum } from "@/util/rankingEnums";
-import { RankingContext } from "@/store/rankingContext";
+import { RankingContext, TeamType } from "@/store/rankingContext";
 import { BALANCE_INITIAL_DATA } from "@/util/rankingConstants";
 
 import { LastUpdateDataHeader } from "@/styled/main";
-
-type TeamType = {
-  teamName: string;
-  id: string;
-  time: string | Date;
-  returnData: {
-    balance: number;
-    equity: number;
-  }
-}
 
 export default function Home({teams}:{teams: TeamType[]}) {
 
@@ -57,6 +47,10 @@ export default function Home({teams}:{teams: TeamType[]}) {
     column3={(elem.returnData.equity/ BALANCE_INITIAL_DATA).toFixed(2)+"%"}
     inspectTeamCallback={() => context.setCurrentlyInspectedTeamID(context.currentlyInspectedTeamID === elem.id ? "" : elem.id)}
     />);
+
+    useEffect(() => {
+      context.setTeams(teams);
+    }, []);
 
   return (
     <>

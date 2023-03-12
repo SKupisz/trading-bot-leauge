@@ -1,9 +1,20 @@
 import React, {createContext, useReducer} from "react";
-import { SET_INSPECTED_TEAM_INDEX } from "@/util/rankingConstants"
+import { SET_INSPECTED_TEAM_INDEX, SET_TEAMS } from "@/util/rankingConstants"
 
 type stateType = {
     currentlyInspectedTeamID: string;
+    teams: TeamType[];
 }
+
+export type TeamType = {
+    teamName: string;
+    id: string;
+    time: string | Date;
+    returnData: {
+      balance: number;
+      equity: number;
+    }
+  }
 
 type actionType = {
     type: string;
@@ -12,7 +23,9 @@ type actionType = {
 
 type rankingContextType = {
     currentlyInspectedTeamID: string;
+    teams: TeamType[],
     setCurrentlyInspectedTeamID: (newID: string) => void;
+    setTeams: (newTeams: TeamType[]) => void;
 }
 
 interface RankingContextProviderInterface {
@@ -23,6 +36,8 @@ const rankingReducer = (state:stateType, action:actionType) => {
     switch(action.type){
         case SET_INSPECTED_TEAM_INDEX:
             return {...state, currentlyInspectedTeamID: action.payload};
+        case SET_TEAMS: 
+            return {...state, teams: action.payload};
         default:
             return {...state};
     }
@@ -30,7 +45,9 @@ const rankingReducer = (state:stateType, action:actionType) => {
 
 export const RankingContext = createContext<rankingContextType>({
     currentlyInspectedTeamID: "",
-    setCurrentlyInspectedTeamID: (newId: string) => {}
+    teams: [],
+    setCurrentlyInspectedTeamID: (newId: string) => {},
+    setTeams: (newTeams: TeamType[]) => {}
 })
 
 const RankingContextProvider:React.FC<RankingContextProviderInterface> = ({
@@ -38,7 +55,8 @@ const RankingContextProvider:React.FC<RankingContextProviderInterface> = ({
 }:RankingContextProviderInterface) => {
 
     const [rankingState, dispatch] = useReducer(rankingReducer, {
-        currentlyInspectedTeamID: ""
+        currentlyInspectedTeamID: "",
+        teams: []
     });
 
     const setNewTeamID = (newID: string) => dispatch({
@@ -46,9 +64,16 @@ const RankingContextProvider:React.FC<RankingContextProviderInterface> = ({
         payload: newID
     });
 
+    const setTeams = (newTeams: TeamType[]) => dispatch({
+        type: SET_TEAMS,
+        payload: newTeams
+    })
+
     const value:rankingContextType = {
         currentlyInspectedTeamID: rankingState.currentlyInspectedTeamID,
-        setCurrentlyInspectedTeamID: setNewTeamID
+        teams: [],
+        setCurrentlyInspectedTeamID: setNewTeamID,
+        setTeams: setTeams
     }
 
     return <RankingContext.Provider value={value}>
