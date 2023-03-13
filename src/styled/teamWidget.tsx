@@ -100,6 +100,7 @@ export const TeamWidgetInfoContainer = styled.div`
     position: relative;
     left: 1%;
     top: 4vh;
+    margin-bottom: 7vh;
     color: ${(props) => props.theme.textColor};
     text-shadow: ${(props) => props.theme.textShadowGlowup};
 

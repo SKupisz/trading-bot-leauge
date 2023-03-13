@@ -10,9 +10,9 @@ import { BALANCE_INITIAL_DATA } from "@/util/rankingConstants";
 
 type transactionDataType = {
     open_price: number;
-    close_price: number;
+    close_price: number | null;
     open_timeString: string | Date;
-    close_timString: string | Date;
+    close_timString: string | Date | null;
     profit: number;
     symbol: string;
 };
@@ -31,10 +31,12 @@ const TeamWidgetComponent:React.FC = () => {
 
     const [transactionData, setTransactionData] = useState<transactionDataType[]>([]);
     const [isError, toggleIsError] = useState<boolean>(false);
+    const [isLoading, toggleIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
         toggleIsError(false);
         const getTeamDataCallback = async() =>{
+            toggleIsLoading(true);
             try {
                 const response = await axios.get(`${process.env.NEXT_PUBLIC_API_ADDRESS}/get-trades/${context.currentlyInspectedTeamID}`);
                 const data:transactionDataType[] = response.data;
@@ -43,6 +45,7 @@ const TeamWidgetComponent:React.FC = () => {
                 setTransactionData([]);
                 toggleIsError(true);
             }
+            toggleIsLoading(false);
         };
 
         if(isOpened) getTeamDataCallback();
@@ -50,7 +53,9 @@ const TeamWidgetComponent:React.FC = () => {
             setTransactionData([]);
         }
 
-    }, [isOpened]);
+    }, [context.currentlyInspectedTeamID]);
+
+    const symbols:string[] = [...new Set<string>(transactionData.map((elem: transactionDataType) => elem.symbol))];
     
     return <AnimatePresence>
         <TeamWidgetWrapper layout initial={{
@@ -69,9 +74,7 @@ const TeamWidgetComponent:React.FC = () => {
                 {isOpened ? currentTeamPointer[0].teamName : null}
             </TeamWidgetHeader>
             <TeamWidgetInfoContainer>
-                {isOpened ? isError ? <TeamWidgetErrorHeader>
-                    Błąd sieciowy. Spróbuj ponownie
-                </TeamWidgetErrorHeader> : <>
+                {isOpened ? <>
                     <TeamWidgetTeamInfo>
                         Wartość początkowa: {BALANCE_INITIAL_DATA}PLN
                     </TeamWidgetTeamInfo>
@@ -81,6 +84,24 @@ const TeamWidgetComponent:React.FC = () => {
                     <TeamWidgetTeamInfo>
                         Zmiana od początku gry: {(currentTeamPointer[0].returnData.equity/BALANCE_INITIAL_DATA).toFixed(2)}%
                     </TeamWidgetTeamInfo>
+                </> : null}
+            </TeamWidgetInfoContainer>
+            <TeamWidgetInfoContainer>
+                <TeamWidgetErrorHeader>
+                    {isError ? "Błąd połączenia. Spróbuj ponownie" : "Historia transakcji"}
+                </TeamWidgetErrorHeader>
+                {isOpened && !isError ? isLoading 
+                ? <TeamWidgetTeamInfo>
+                    Ładowanie...
+                </TeamWidgetTeamInfo>
+                : transactionData.length === 0 
+                    ? <TeamWidgetTeamInfo>
+                        Brak danych
+                    </TeamWidgetTeamInfo> 
+                    : <>
+                        <TeamWidgetTeamInfo>
+                            Inwestycje: {symbols.join(", ")}
+                        </TeamWidgetTeamInfo>
                 </> : null}
             </TeamWidgetInfoContainer>
         </TeamWidgetWrapper>
