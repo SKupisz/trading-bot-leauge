@@ -82,7 +82,7 @@ const TeamWidgetComponent:React.FC = () => {
                         Wartość obecna: {currentTeamPointer[0].returnData.equity}PLN
                     </TeamWidgetTeamInfo>
                     <TeamWidgetTeamInfo>
-                        Zmiana od początku gry: {(currentTeamPointer[0].returnData.equity/BALANCE_INITIAL_DATA).toFixed(3)}%
+                        Zmiana od początku gry: {((currentTeamPointer[0].returnData.equity-BALANCE_INITIAL_DATA) /BALANCE_INITIAL_DATA).toFixed(3)}%
                     </TeamWidgetTeamInfo>
                 </> : null}
             </TeamWidgetInfoContainer>

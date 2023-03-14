@@ -45,7 +45,7 @@ export default function Home({fetchedTeams}:{fetchedTeams: TeamType[]}) {
   <RankingRowComponent 
     column1={elem.teamName}
     column2={elem.returnData.equity}
-    column3={(elem.returnData.equity / BALANCE_INITIAL_DATA).toFixed(2)+"%"}
+    column3={((elem.returnData.equity-BALANCE_INITIAL_DATA) / BALANCE_INITIAL_DATA).toFixed(3)+"%"}
     inspectTeamCallback={() => context.setCurrentlyInspectedTeamID(context.currentlyInspectedTeamID === elem.id ? "" : elem.id)}
     />);
 
