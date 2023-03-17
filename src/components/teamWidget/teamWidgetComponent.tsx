@@ -17,6 +17,11 @@ type transactionDataType = {
     symbol: string;
 };
 
+type investingsCounterType = {
+    symbol: string;
+    occurances: number;
+}
+
 const TeamWidgetComponent:React.FC = () => {
 
     const isBiggerThanLaptop = useMediaQuery("(min-width: 1024px)");
@@ -40,6 +45,7 @@ const TeamWidgetComponent:React.FC = () => {
             try {
                 const response = await axios.get(`${process.env.NEXT_PUBLIC_API_ADDRESS}/get-trades/${context.currentlyInspectedTeamID}`);
                 const data:transactionDataType[] = response.data;
+                console.log(data);
                 setTransactionData(data);
             } catch (error) {
                 setTransactionData([]);
@@ -56,6 +62,26 @@ const TeamWidgetComponent:React.FC = () => {
     }, [context.currentlyInspectedTeamID]);
 
     const symbols:string[] = [...new Set<string>(transactionData.map((elem: transactionDataType) => elem.symbol))];
+    const investingsCounter:investingsCounterType[] = [...symbols.map((elem: string, _) => {return {symbol: elem, occurances: 0}})];
+
+    for(let i = 0; i < transactionData.length; i++){
+        investingsCounter.filter((elem: investingsCounterType, _) => elem.symbol === transactionData[i].symbol)[0].occurances++;
+    }
+
+    const mostlyInvestedAssetsOperand:investingsCounterType[] = investingsCounter.sort((elem1: investingsCounterType, elem2: investingsCounterType) => elem2.occurances - elem1.occurances)
+
+    const mostlyInvestedAssets:string[] = [];
+
+    if(mostlyInvestedAssetsOperand.length > 0){
+        let assetsInd = 0;
+        while(assetsInd < mostlyInvestedAssetsOperand.length 
+            && mostlyInvestedAssetsOperand[assetsInd].occurances === mostlyInvestedAssetsOperand[0].occurances){
+                mostlyInvestedAssets.push(mostlyInvestedAssetsOperand[assetsInd].symbol);
+                assetsInd++;
+        }
+    }
+
+    const avgProfit:number = transactionData.reduce((sum:number, currentTransaction:transactionDataType) => sum + currentTransaction.profit, 0)/transactionData.length;
     
     return <AnimatePresence>
         <TeamWidgetWrapper layout initial={{
@@ -101,6 +127,12 @@ const TeamWidgetComponent:React.FC = () => {
                     : <>
                         <TeamWidgetTeamInfo>
                             Inwestycje: {symbols.join(", ")}
+                        </TeamWidgetTeamInfo>
+                        <TeamWidgetTeamInfo>
+                            Najczęściej inwestują w: {mostlyInvestedAssets.join(", ")}
+                        </TeamWidgetTeamInfo>
+                        <TeamWidgetTeamInfo>
+                            Średni profit: {avgProfit.toFixed(3)}
                         </TeamWidgetTeamInfo>
                 </> : null}
             </TeamWidgetInfoContainer>
