@@ -83,6 +83,9 @@ const TeamWidgetComponent:React.FC = () => {
 
     const avgProfit:number = transactionData.reduce((sum:number, currentTransaction:transactionDataType) => sum + currentTransaction.profit, 0)/transactionData.length;
     
+    const maxProfit:number | null = transactionData.length > 0 ? transactionData.sort((elem1: transactionDataType, elem2: transactionDataType) => elem2.profit - elem1.profit)[0].profit : null;
+    const minProfit:number | null = transactionData.length > 0 ? transactionData.sort((elem1: transactionDataType, elem2: transactionDataType) => elem1.profit - elem2.profit)[0].profit : null;
+
     return <AnimatePresence>
         <TeamWidgetWrapper layout initial={{
             left: "105%"
@@ -131,6 +134,18 @@ const TeamWidgetComponent:React.FC = () => {
                         <TeamWidgetTeamInfo>
                             Najczęściej inwestują w: {mostlyInvestedAssets.join(", ")}
                         </TeamWidgetTeamInfo>
+                        {
+                            maxProfit !== null ? 
+                            <TeamWidgetTeamInfo>
+                                Maksymalny profit: {maxProfit.toFixed(3)}
+                            </TeamWidgetTeamInfo> : null
+                        }
+                                                {
+                            minProfit !== null ? 
+                            <TeamWidgetTeamInfo>
+                                Minimalny profit: {minProfit.toFixed(3)}
+                            </TeamWidgetTeamInfo> : null
+                        }
                         <TeamWidgetTeamInfo>
                             Średni profit: {avgProfit.toFixed(3)}
                         </TeamWidgetTeamInfo>
