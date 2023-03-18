@@ -45,7 +45,6 @@ const TeamWidgetComponent:React.FC = () => {
             try {
                 const response = await axios.get(`${process.env.NEXT_PUBLIC_API_ADDRESS}/get-trades/${context.currentlyInspectedTeamID}`);
                 const data:transactionDataType[] = response.data;
-                console.log(data);
                 setTransactionData(data);
             } catch (error) {
                 setTransactionData([]);

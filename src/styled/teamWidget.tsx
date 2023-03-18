@@ -6,6 +6,8 @@ export const TeamWidgetWrapper = styled(motion.section)`
     height: calc(100vh - 20px);
     padding: 10px 0px;
     position: fixed;
+    overflow-x: hidden;
+    overflow-y: auto;
     top: 10vh;
     left: 0%;
     z-index: 3;
@@ -24,6 +26,16 @@ export const TeamWidgetWrapper = styled(motion.section)`
         top: 0;
         left: 0;
         z-index: -1;
+    }
+
+    &::-webkit-scrollbar{
+        width: 6px;
+        background: ${(props) => props.theme.backgroundColor};
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: ${(props) => props.theme.rowBackgroundColor};
+        border-radius: 4px;
     }
 
     @media screen and (min-width: 375px){
@@ -100,7 +112,7 @@ export const TeamWidgetInfoContainer = styled.div`
     position: relative;
     left: 1%;
     top: 4vh;
-    margin-bottom: 7vh;
+    padding-bottom: 9vh;
     color: ${(props) => props.theme.textColor};
     text-shadow: ${(props) => props.theme.textShadowGlowup};
 

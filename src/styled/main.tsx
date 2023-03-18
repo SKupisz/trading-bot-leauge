@@ -18,6 +18,17 @@ export const GlobalStyle = createGlobalStyle`
         background: #191825;
         overflow-x: hidden;
     }
+
+    ::-webkit-scrollbar{
+        width: 10px;
+        background: #191825;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        width: 8px;
+        background: #5D41B2;
+        border-radius: 4px;
+    }
 `;
 
 export const LastUpdateDataHeader = styled.header`
