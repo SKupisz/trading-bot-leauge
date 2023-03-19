@@ -112,7 +112,7 @@ export async function getStaticProps(){
       props: {
         fetchedTeams: data
       },
-      revalidate: 10
+      revalidate: 1200
     }
   } catch(error){
     console.log(error);
@@ -122,7 +122,7 @@ export async function getStaticProps(){
     props: {
       fetchedTeams: []
     },
-    revalidate: 10
+    revalidate: 1200
   }
 
 }
