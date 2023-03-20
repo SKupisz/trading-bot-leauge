@@ -41,13 +41,13 @@ export default function Home({fetchedTeams}:{fetchedTeams: TeamType[]}) {
         break;
   }
 
-  let teamsRows:JSX.Element[] = sortedTeams.map((elem:TeamType, index:number) => 
-  <RankingRowComponent 
+  let teamsRows:JSX.Element[] = sortedTeams.map((elem:TeamType, index:number) => {
+  return <RankingRowComponent 
     column1={elem.teamName}
     column2={elem.returnData.equity}
     column3={((elem.returnData.equity-BALANCE_INITIAL_DATA) / BALANCE_INITIAL_DATA).toFixed(3)+"%"}
     inspectTeamCallback={() => context.setCurrentlyInspectedTeamID(context.currentlyInspectedTeamID === elem.id ? "" : elem.id)}
-    />);
+    />});
 
     useEffect(() => {
       if(context.teams.length === 0){
@@ -66,7 +66,7 @@ export default function Home({fetchedTeams}:{fetchedTeams: TeamType[]}) {
           toggleIsError(true);
         }
       }
-
+      
       getRows();
     }, []);
 
