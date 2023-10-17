@@ -38,7 +38,7 @@ const TeamWidgetComponent:React.FC = () => {
     const [isError, toggleIsError] = useState<boolean>(false);
     const [isLoading, toggleIsLoading] = useState<boolean>(false);
 
-    useEffect(() => {
+    /*useEffect(() => {
         toggleIsError(false);
         const getTeamDataCallback = async() =>{
             toggleIsLoading(true);
@@ -58,7 +58,7 @@ const TeamWidgetComponent:React.FC = () => {
             setTransactionData([]);
         }
 
-    }, [context.currentlyInspectedTeamID]);
+    }, [context.currentlyInspectedTeamID]);*/
 
     const symbols:string[] = [...new Set<string>(transactionData.map((elem: transactionDataType) => elem.symbol))];
     const investingsCounter:investingsCounterType[] = [...symbols.map((elem: string, _) => {return {symbol: elem, occurances: 0}})];

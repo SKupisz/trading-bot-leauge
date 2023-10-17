@@ -55,7 +55,7 @@ export default function Home({fetchedTeams}:{fetchedTeams: TeamType[]}) {
       }
     }, [fetchedTeams]);
 
-    useEffect(() => {
+    /*useEffect(() => {
       async function getRows(){
         toggleIsError(false);
         try {
@@ -69,6 +69,7 @@ export default function Home({fetchedTeams}:{fetchedTeams: TeamType[]}) {
       
       getRows();
     }, []);
+    */
 
   return (
     <>
@@ -104,15 +105,39 @@ export default function Home({fetchedTeams}:{fetchedTeams: TeamType[]}) {
 
 export async function getStaticProps(){
   try{
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_ADDRESS}/get-data`);
+    /*const response = await axios.get(`${process.env.NEXT_PUBLIC_API_ADDRESS}/get-data`);
   
-    const data = await response.data;
+    const data = await response.data;*/
+    const time = JSON.parse(JSON.stringify(new Date()));
 
     return {
       props: {
-        fetchedTeams: data
-      },
-      revalidate: 1200
+        fetchedTeams: [{
+          teamName: 'IiAD',
+          id: '101',
+          time,
+          returnData: {
+            balance: 12000,
+            equity: 11000,
+          }
+        },{
+          teamName: 'MAD',
+          id: '102',
+          time,
+          returnData: {
+            balance: 13000,
+            equity: 12000,
+          }
+        },{
+          teamName: 'CS',
+          id: '103',
+          time,
+          returnData: {
+            balance: 13000,
+            equity: 14000,
+          }
+        },]
+      }
     }
   } catch(error){
     console.log(error);
@@ -122,7 +147,6 @@ export async function getStaticProps(){
     props: {
       fetchedTeams: []
     },
-    revalidate: 1200
   }
 
 }
