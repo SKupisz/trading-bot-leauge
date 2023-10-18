@@ -12,7 +12,7 @@ export const TeamWidgetWrapper = styled(motion.section)`
     left: 0%;
     z-index: 3;
     background: ${(props) => props.theme.backgroundColor}f2;
-    box-shadow: -10px 0px 10px ${(props) => props.theme.rowBackgroundColor}62;
+    box-shadow: -4px 0px 4px ${(props) => props.theme.rowBackgroundColor}62;
     color: ${(props) => props.theme.textColor};
 
     &::before{

@@ -5,10 +5,10 @@ export const Theme = {
     rowBackgroundColor: "#5D41B2",
     navbarBackgroundColor: "#38266f",
     textColor: "#DED9EF",
-    textShadow: "3px 3px 4px rgba(222,217,239,.2)",
-    textShadowGlowup: "3px 3px 10px rgba(93,65,178,.9)",
+    textShadow: "2px 2px 2px rgba(222,217,239,.1)",
+    textShadowGlowup: "2px 2px 2px rgba(93,65,178,.6)",
     boxShadowNormal: "3px 3px 4px rgba(93,65,178,.2)",
-    boxShadowGlowup: "0px 0px 10px 10px rgba(93,65,178,.6)",
+    boxShadowGlowup: "0px 0px 4px 4px rgba(93,65,178,.6)",
 };
 
 export const GlobalStyle = createGlobalStyle`
